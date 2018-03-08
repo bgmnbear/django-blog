@@ -104,3 +104,6 @@ venv.bak/
 # mypy
 .mypy_cache/
 .idea/
+*.sqlite3
+django-blog-env/
+blog/whister.log.txt
