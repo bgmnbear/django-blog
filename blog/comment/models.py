@@ -3,11 +3,11 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-from blog.blog.models import Post
+from blog.models import Post
 
 
 class Comment(models.Model):
-    past = models.ForeignKey(Post, verbose_name="文章")
+    post = models.ForeignKey(Post, verbose_name="文章")
     content = models.CharField(max_length=2000, verbose_name="内容")
     nickname = models.CharField(max_length=50, verbose_name="昵称")
     website = models.URLField(verbose_name="网站")
