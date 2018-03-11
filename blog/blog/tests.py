@@ -5,7 +5,6 @@ from pprint import pprint as pp
 
 from django.contrib.auth.models import User
 from django.db import connection
-
 from django.db.models import F, Q, Count, Sum
 from django.test import TestCase
 from django.test.utils import override_settings
@@ -27,20 +26,12 @@ class TestCategory(TestCase):
         categories = Category.objects.filter(
             (Q(id=1) & Q(id=2))
         )
+        print(categories)
+
+        print('===' * 10)
 
         category = Category.objects.filter(id=1).update(status=F('status') + 1)
 
         user = User.objects.annotate(cate_sum=Sum('category__status')).get(username="the5fire")
+        print(user.cate_sum)
         pp(connection.queries)
-
-    def test_values(self):
-        categories = Category.objects.values('name').filter(status=1)
-        print(categories)
-
-        categories = Category.objects.values_list('name')
-        print(categories)
-
-        categories = Category.objects.values_list('name', flat=True)
-        print(categories)
-        for cate_name in categories:
-            print(cate_name)
