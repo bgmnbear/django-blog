@@ -32,6 +32,6 @@ class TestCategory(TestCase):
 
         category = Category.objects.filter(id=1).update(status=F('status') + 1)
 
-        user = User.objects.annotate(cate_sum=Sum('category__status')).get(username="the5fire")
+        user = User.objects.annotate(cate_sum=Sum('category__status')).get(username="whister")
         print(user.cate_sum)
         pp(connection.queries)
