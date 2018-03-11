@@ -5,9 +5,6 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-# Create your models here.
-
-
 class Post(models.Model):
     STATUS_ITEMS = (
         (1, '上线'),
@@ -24,8 +21,10 @@ class Post(models.Model):
     status = models.IntegerField(default=1, choices=STATUS_ITEMS, verbose_name="状态")
     owner = models.ForeignKey(User, verbose_name="作者")
 
-    create_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
-    lasted_update_time = models.DateTimeField(auto_now=True, verbose_name="更新时间")
+    created_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
+
+    def __unicode__(self):
+        return self.title
 
     class Meta:
         verbose_name = verbose_name_plural = "文章"
@@ -33,16 +32,18 @@ class Post(models.Model):
 
 class Category(models.Model):
     STATUS_ITEMS = (
-        (1, '正常'),
+        (1, '可用'),
         (2, '删除'),
     )
-
     name = models.CharField(max_length=50, verbose_name="名称")
     status = models.PositiveIntegerField(default=1, choices=STATUS_ITEMS, verbose_name="状态")
     is_nav = models.BooleanField(default=False, verbose_name="是否为导航")
 
     owner = models.ForeignKey(User, verbose_name="作者")
     created_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
+
+    def __unicode__(self):
+        return self.name
 
     class Meta:
         verbose_name = verbose_name_plural = '分类'
