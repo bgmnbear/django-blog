@@ -3,7 +3,11 @@ from django import forms
 
 
 class PostAdminForm(forms.ModelForm):
-    # TODO: 处理布尔类型字段
-    status = forms.BooleanField(label="是否删除", required=True)
-
+    status = forms.BooleanField(label="是否删除", required=False)
     desc = forms.CharField(widget=forms.Textarea, label='摘要', required=False)
+
+    def clean_status(self):
+        if self.cleaned_data['status']:
+            return 3
+        else:
+            return 1
