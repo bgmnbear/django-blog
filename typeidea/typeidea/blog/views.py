@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.core.paginator import Paginator, EmptyPage
 from django.http import Http404
 from django.shortcuts import render
 
@@ -17,11 +18,23 @@ def post_list(request, category_id=None, tag_id=None):
             queryset = []
         else:
             queryset = tag.posts.all()
-    else:
-        queryset = Post.objects.all()
+
+    queryset = Post.objects.all()
+    page = request.GET.get('page', 1)
+    try:
+        page = int(page)
+    except TypeError:
+        page = 1
+
+    page_size = 2
+    paginator = Paginator(queryset, page_size)
+    try:
+        posts = paginator.page(page)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
 
     context = {
-        'posts': queryset,
+        'posts': posts,
     }
     return render(request, 'blog/list.html', context=context)
 
