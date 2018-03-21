@@ -1,0 +1,67 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+
+<div class="container">
+    <h3>typeidea blog - by whister</h3>
+    <small class="text-muted"> - 基于Django的多人博客系统</small>
+    <hr>
+    <div class="nav-scroller py-1 mb-2">
+        <div class="nav d-flex justify-content-between">
+            {% for cate in nav_cates %}
+                <a class="p-2 text-muted" href="{% url 'category' cate.id %}">{{ cate.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-md-8 blog-main">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        <div class="col-md-4 blog-sidebar">
+            <div class="p-3">
+                {% for side in side_bars %}
+                    <h4 class="font-italic">{{ side.title }}</h4>
+                    <div>
+                        {% if side.display_type == 1 %}
+                            {% autoescape off %}
+                                {{ side.content }}
+                            {% endautoescape %}
+                        {% elif side.display_type == 2 %}
+                            <ul>
+                                {% for post in recently_posts %}
+                                    <li>{{ post.title }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% elif side.display_type == 4 %}
+                            {% for comment in recently_comments %}
+                                <li>{{ post.title }}</li>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="blog-footer text-center">
+    <p>Blog built by <a
+            href="https://github.com/bgmnbear">@lazybear</a>.
+    </p>
+    <p>
+        <a href="#">Back to top</a>
+    </p>
+</footer>
+
+</body>
+
+</html>
