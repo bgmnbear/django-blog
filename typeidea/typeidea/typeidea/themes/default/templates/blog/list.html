@@ -1,14 +1,20 @@
 {% extends "./base.html" %}
 
 {% block content %}
-    <hr/>
+    <br>
     {% if posts %}
         {% for post in posts %}
             <div class="blog-post">
-                title: <a href="{% url 'detail' post.id %}">{{ post.title }}</a><br/>
-                desc: {{ post.desc }}
+                <a href="{% url 'detail' post.id %}">{{ post.title }}</a>
+                <hr>
+                分类: <a href="{% url 'category' post.category.id %}">{{ post.category.name }}</a>
+                标签: <a href="#">{% for tag in post.tags.all %}{{ tag.name }}{% endfor %}</a>
+                作者: <a>{{ post.owner }}</a>
+                创建时间: {{ post.created_time }}
+                <br>
+                <p>{{ post.desc }}</p>
             </div>
-            <hr>
+
         {% endfor %}
         {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">上一页</a>{% endif %}
         Page {{ page_obj.number }} of {{ paginator.num_pages }}.

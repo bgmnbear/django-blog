@@ -2,22 +2,86 @@
 <head>
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #edecd6;
+        }
+
+        .fixed-top {
+            position: fixed;
+            right: 0;
+            left: 0;
+            border-width: 0 0 1px;
+        }
+
+        header {
+            height: 50px;
+            background-color: #3d4450;
+            border-color: #080808;
+
+        }
+
+        header nav a {
+            color: #fff;
+            padding: 0 1.5rem;
+        }
+
+        header nav a:hover {
+            color: #fff;
+            text-decoration: none;
+            background-color: #000;
+        }
+
+        header a.logo {
+
+            font-size: 1.5rem;
+        }
+
+        header a.index {
+
+            font-size: 1.5rem;
+        }
+
+        header .container .nav_cate {
+
+            font-size: 1.5rem;
+        }
+
+        header .container .nav {
+            height: 50px;
+        }
+
+        main {
+            margin-top: 90px;
+        }
+
+        .col-md-8 {
+            background-color: #efefef;
+        }
+
+        .p-3 {
+            background-color: #efefef;
+        }
+    </style>
 </head>
 
 <body>
-
-<div class="container">
-    <h3>typeidea blog - by whister</h3>
-    <small class="text-muted"> - 基于Django的多人博客系统</small>
-    <hr>
-    <div class="nav-scroller py-1 mb-2">
-        <div class="nav d-flex justify-content-between">
+<header class="fixed-top">
+    <div class="container">
+        <nav class="nav">
+            <a class="logo" href="/">Typeidea</a>
+            <a class="index" href="/">首页</a>
             {% for cate in nav_cates %}
-                <a class="p-2 text-muted" href="{% url 'category' cate.id %}">{{ cate.name }}</a>
+                <a class="nav_cate" href="{% url 'category' cate.id %}">{{ cate.name }}</a>
             {% endfor %}
-        </div>
+        </nav>
     </div>
+</header>
+
+<div class="container banner">
+    <h3>typeidea blog - by whister</h3>
 </div>
+
 
 <main role="main" class="container">
     <div class="row">
@@ -53,6 +117,7 @@
     </div>
 </main>
 
+<hr>
 <footer class="blog-footer text-center">
     <p>Blog built by <a
             href="https://github.com/bgmnbear">@lazybear</a>.
