@@ -61,7 +61,17 @@ class BasePostsView(CommonMixin, ListView):
 
 
 class IndexView(BasePostsView):
-    pass
+    def get_queryset(self):
+        qs = super(IndexView, self).get_queryset()
+        query = self.request.GET.get('query')
+        if not query:
+            return qs
+
+        return qs.filter(title__icontains=query)
+
+    def get_context_data(self, **kwargs):
+        query = self.request.GET.get('query')
+        return super(IndexView, self).get_context_data(query=query)
 
 
 class CategoryView(BasePostsView):
