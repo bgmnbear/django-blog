@@ -1,80 +1,36 @@
+{% load static %}
 <html>
 <head>
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <style>
-        body {
-            background-color: #edecd6;
-        }
-
-        .fixed-top {
-            position: fixed;
-            right: 0;
-            left: 0;
-            border-width: 0 0 1px;
-        }
-
-        header {
-            height: 50px;
-            background-color: #3d4450;
-            border-color: #080808;
-
-        }
-
-        header nav a {
-            color: #fff;
-            padding: 0 1.5rem;
-        }
-
-        header nav a:hover {
-            color: #fff;
-            text-decoration: none;
-            background-color: #000;
-        }
-
-        header a.logo {
-
-            font-size: 1.5rem;
-        }
-
-        header a.index {
-
-            font-size: 1.5rem;
-        }
-
-        header .container .nav_cate {
-
-            font-size: 1.5rem;
-        }
-
-        header .container .nav {
-            height: 50px;
-        }
-
-        main {
-            margin-top: 90px;
-        }
-
-        .col-md-8 {
-            background-color: #efefef;
-        }
-
-        .p-3 {
-            background-color: #efefef;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 
 <body>
 <header class="fixed-top">
     <div class="container">
-        <nav class="nav">
-            <a class="logo" href="/">Typeidea</a>
-            <a class="index" href="/">首页</a>
-            {% for cate in nav_cates %}
-                <a class="nav_cate" href="{% url 'category' cate.id %}">{{ cate.name }}</a>
-            {% endfor %}
-        </nav>
+        <div class="row">
+            <div class="col-9">
+                <nav class="nav">
+                    <a class="logo" href="/">Typeidea</a>
+                    <a class="index" href="/">首页</a>
+                    {% for cate in nav_cates %}
+                        <a class="nav_cate" href="{% url 'category' cate.id %}">{{ cate.name }}</a>
+                    {% endfor %}
+                </nav>
+            </div>
+            <div class="col-3 search">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Search for..."
+                           aria-label="Recipient's username"
+                           aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button">Go!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </header>
 
