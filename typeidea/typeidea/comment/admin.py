@@ -9,7 +9,7 @@ from typeidea.custom_site import custom_site
 
 @admin.register(Comment, site=custom_site)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ['post', 'content', 'nickname',
+    list_display = ['target', 'content', 'nickname',
                     'website', 'email', 'created_time'
                     ]
 

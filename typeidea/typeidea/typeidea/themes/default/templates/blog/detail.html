@@ -1,8 +1,7 @@
 {% extends "./base.html" %}
 
 {% block content %}
-    <h1>{{ post.title }}</h1>
-    <nav aria-label="breadcrumb" role="navigation">
+    <nav id="breadcrumb" aria-label="breadcrumb" role="navigation">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/venv/Scripts">首页</a></li>
             <li class="breadcrumb-item"><a href="{% url 'category' post.category.id %}">{{ post.category.name }}</a>
@@ -10,10 +9,22 @@
             <li class="breadcrumb-item active" aria-current="page">正文</li>
         </ol>
     </nav>
+    <h1>{{ post.title }}</h1>
     分类: <a href="{% url 'category' post.category.id %}">{{ post.category.name }}</a>
     标签: <a href="#">{% for tag in post.tags.all %}{{ tag.name }}{% endfor %}</a>
     作者: <a>{{ post.owner }}</a>
     创建时间: {{ post.created_time }}
     <hr>
-    {{ post.content }}
+    <article class="popover-content">
+        {{ post.content }}
+    </article>
+    <hr>
+    <div class="comment">
+        <form action="/comment/" method="post">
+            {% csrf_token %}
+            <input name="target" value="{{ request.path }}">
+            {{ comment_form }}
+            <input type="submit" value="写好了!">
+        </form>
+    </div>
 {% endblock %}

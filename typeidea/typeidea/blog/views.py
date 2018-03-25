@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.views.generic import ListView, DetailView
 
 from blog.models import Post, Tag, Category
+from comment.form import CommentForm
 from comment.models import Comment
 from config.models import SideBar
 
@@ -107,3 +108,9 @@ class PostView(CommonMixin, DetailView):
     model = Post
     template_name = 'blog/detail.html'
     context_object_name = 'post'
+
+    def get_context_data(self, **kwargs):
+        kwargs.update({
+            'comment_form': CommentForm(),
+        })
+        return super(PostView, self).get_context_data(**kwargs)
