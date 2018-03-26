@@ -14,10 +14,13 @@ class CommentView(TemplateView):
         return super(CommentView, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        # TODO, 获取 path
         comment_form = CommentForm(request.POST)
+        target = request.POST.get('target')
+
         if comment_form.is_valid():
-            comment_form.save()
+            instance = comment_form.save(commit=False)
+            instance.target = target
+            instance.save()
             succeed = True
         else:
             succeed = False

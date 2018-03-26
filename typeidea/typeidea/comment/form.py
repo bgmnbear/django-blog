@@ -12,6 +12,7 @@ class CommentForm(forms.ModelForm):
         content = self.cleaned_data.get('content')
         if len(content) < 10:
             raise forms.ValidationError('字数不足, 请认真回复!')
+        return content
 
     class Meta:
         model = Comment
