@@ -6,16 +6,12 @@ from django.views.generic import ListView
 
 from blog.views import CommonMixin
 from comment.form import CommentForm
+from comment.models import Comment
+from comment.views import CommentShowMixin
 from config.models import Link
 
 
-class LinkView(CommonMixin, ListView):
+class LinkView(CommonMixin, CommentShowMixin, ListView):
     queryset = Link.objects.filter(status=1)
     template_name = 'config/links.html'
     context_object_name = 'links'
-
-    def get_context_data(self, **kwargs):
-        kwargs.update({
-            'comment_form': CommentForm(),
-        })
-        return super(LinkView, self).get_context_data(**kwargs)

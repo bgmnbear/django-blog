@@ -6,4 +6,17 @@
         {{ comment_form }}
         <input type="submit" value="写好了!">
     </form>
+
+    <ul class="list-group">
+        {% for comment in comments %}
+            <li class="list-group-item">
+                <div class="nickname">
+                    <a href="{{ comment.website }}">{{ comment.nickname }}</a> <span>{{ comment.created_time }}</span>
+                </div>
+                <div class="comment">
+                    {{ comment.content }}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
 </div>

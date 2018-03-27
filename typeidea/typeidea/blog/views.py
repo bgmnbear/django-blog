@@ -6,6 +6,7 @@ from django.views.generic import ListView, DetailView
 from blog.models import Post, Tag, Category
 from comment.form import CommentForm
 from comment.models import Comment
+from comment.views import CommentShowMixin
 from config.models import SideBar
 
 
@@ -104,13 +105,7 @@ class AuthorView(BasePostsView):
         return qs
 
 
-class PostView(CommonMixin, DetailView):
+class PostView(CommonMixin, CommentShowMixin, DetailView):
     model = Post
     template_name = 'blog/detail.html'
     context_object_name = 'post'
-
-    def get_context_data(self, **kwargs):
-        kwargs.update({
-            'comment_form': CommentForm(initial={'target': self.request.path}),
-        })
-        return super(PostView, self).get_context_data(**kwargs)
