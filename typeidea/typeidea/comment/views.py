@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.shortcuts import redirect
 from django.views.generic import TemplateView
 
 from comment.form import CommentForm
@@ -36,11 +37,13 @@ class CommentView(TemplateView):
             instance.target = target
             instance.save()
             succeed = True
+            return redirect(target)
         else:
             succeed = False
 
         context = {
             'succeed': succeed,
             'form': comment_form,
+            'target': target,
         }
         return self.render_to_response(context)
