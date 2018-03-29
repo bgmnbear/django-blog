@@ -14,7 +14,7 @@ from typeidea.custom_admin import BaseOwnerAdmin
 class PostAdmin(BaseOwnerAdmin):
     list_display = [
         'title', 'category', 'status', 'owner',
-        'created_time', 'operator'
+        'pv', 'uv', 'created_time', 'operator',
     ]
     list_filter = ['category']
     search_fields = ['title', 'category__name', 'owner__username']
@@ -24,8 +24,10 @@ class PostAdmin(BaseOwnerAdmin):
 
     fields = (
         ('category', 'title'),
-        ('desc', 'status'),
-        'content', 'tags',
+        'desc',
+        'status',
+        ('is_markdown', 'content',),
+        'tags',
     )
 
     def operator(self, obj):

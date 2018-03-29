@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 from django.views.generic import ListView, DetailView
 
 from blog.models import Post, Tag, Category
-from comment.form import CommentForm
 from comment.models import Comment
 from comment.views import CommentShowMixin
 from config.models import SideBar
@@ -37,6 +36,7 @@ class CommonMixin(object):
             'side_bars': side_bars,
             'recently_comments': recently_comments,
             'recently_posts': recently_posts,
+            'hot_posts': hot_posts,
         })
         kwargs.update(self.get_category_context())
         return super(CommonMixin, self).get_context_data(**kwargs)
@@ -45,7 +45,7 @@ class CommonMixin(object):
         return Comment.objects.filter(status=1)[:10]
 
     def get_hot_posts(self):
-        return Post.objects.filter(status=1).order_by('views')[:10]
+        return Post.objects.filter(status=1).order_by('pv')[:10]
 
     def get_recently_posts(self):
         return Post.objects.filter(status=1)[:10]
@@ -109,3 +109,12 @@ class PostView(CommonMixin, CommentShowMixin, DetailView):
     model = Post
     template_name = 'blog/detail.html'
     context_object_name = 'post'
+
+    def get(self, request, *args, **kwargs):
+        response = super(PostView, self).get(request, *args, **kwargs)
+        self.pv_uv()
+        return response
+
+    def pv_uv(self):
+        self.object.increase_pv()
+        self.object.increase_uv()
