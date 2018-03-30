@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.core.cache import cache
 from django.views.generic import ListView, DetailView
 
 from blog.models import Post, Tag, Category
@@ -45,10 +46,10 @@ class CommonMixin(object):
         return Comment.objects.filter(status=1)[:10]
 
     def get_hot_posts(self):
-        return Post.objects.filter(status=1).order_by('pv')[:10]
+        return Post.objects.filter(status=1).order_by('pv').reverse()[:10]
 
     def get_recently_posts(self):
-        return Post.objects.filter(status=1)[:10]
+        return Post.objects.filter(status=1).reverse()[:10]
 
     def get_side_bars(self):
         return SideBar.objects.filter(status=1)
@@ -117,4 +118,16 @@ class PostView(CommonMixin, CommentShowMixin, DetailView):
 
     def pv_uv(self):
         self.object.increase_pv()
-        self.object.increase_uv()
+        sessionid = self.request.COOKIES.get('sessionid')
+        if not sessionid:
+            return
+
+        pv_key = 'pv:{}:{}'.format(sessionid, self.request.path)
+        if not cache.get(pv_key):
+            self.object.increase_pv()
+            cache.set(pv_key, 1, 30)
+
+        uv_key = 'uv:{}:{}'.format(sessionid, self.request.path)
+        if not cache.get(uv_key):
+            self.object.increase_uv()
+            cache.set(uv_key, 1, 60 * 60 * 24)
