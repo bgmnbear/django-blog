@@ -2,6 +2,7 @@
 
 from __future__ import unicode_literals
 
+from ckeditor.fields import RichTextField
 from django import forms
 
 from comment.models import Comment

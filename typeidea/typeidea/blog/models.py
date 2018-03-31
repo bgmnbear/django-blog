@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 import markdown
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import F
@@ -18,7 +19,7 @@ class Post(models.Model):
     category = models.ForeignKey('Category', verbose_name="分类")
     tags = models.ManyToManyField('Tag', related_name='posts', verbose_name="标签")
 
-    content = models.TextField(verbose_name="内容", help_text="注：目前仅支持Markdown格式数据")
+    content = RichTextUploadingField(verbose_name="内容")
     html = models.TextField(verbose_name="渲染后的内容", default='', help_text="注：目前仅支持Markdown格式数据")
     is_markdown = models.BooleanField(verbose_name="使用markdown格式", default=True)
     status = models.IntegerField(default=1, choices=STATUS_ITEMS, verbose_name="状态")
@@ -44,6 +45,8 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         if self.is_markdown:
             self.html = markdown.markdown(self.content)
+        else:
+            self.html = self.content
 
         return super(Post, self).save(*args, **kwargs)
 

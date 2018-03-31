@@ -21,8 +21,3 @@ CACHES = {
     }
 }
 
-CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': 'Basic', 'height': 300, 'width': 600,
-    },
-}
