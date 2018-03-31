@@ -46,10 +46,10 @@ class CommonMixin(object):
         return Comment.objects.filter(status=1)[:10]
 
     def get_hot_posts(self):
-        return Post.objects.filter(status=1).order_by('pv').reverse()[:10]
+        return Post.objects.filter(status=1).order_by('pv')[:10]
 
     def get_recently_posts(self):
-        return Post.objects.filter(status=1).reverse()[:10]
+        return Post.objects.filter(status=1)[:10]
 
     def get_side_bars(self):
         return SideBar.objects.filter(status=1)
@@ -59,7 +59,7 @@ class BasePostsView(CommonMixin, ListView):
     model = Post
     template_name = 'blog/list.html'
     context_object_name = 'posts'
-    paginate_by = 2
+    paginate_by = 5
     allow_empty = True
 
 
@@ -117,7 +117,6 @@ class PostView(CommonMixin, CommentShowMixin, DetailView):
         return response
 
     def pv_uv(self):
-        self.object.increase_pv()
         sessionid = self.request.COOKIES.get('sessionid')
         if not sessionid:
             return
