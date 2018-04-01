@@ -25,4 +25,4 @@ urlpatterns = [
                   url(r'^admin/', admin.site.urls),
                   url(r'^cus_admin/', custom_site.urls),
                   url(r'^ckeditor/', include('ckeditor_uploader.urls')),
-              ] + uploader_urls.urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
