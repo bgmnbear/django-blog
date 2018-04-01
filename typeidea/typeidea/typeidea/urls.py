@@ -5,14 +5,19 @@ from django.conf import settings
 from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
+from rest_framework.documentation import include_docs_urls
 
+from blog.api import PostViewSet, CategoryViewSet
 from comment.views import CommentView
 from config.views import LinkView
 from typeidea.custom_site import custom_site
 from blog.views import IndexView, CategoryView, TagView, PostView, AuthorView
-from ckeditor_uploader import urls as uploader_urls
 
-# from config.views import links
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'posts', PostViewSet)
+router.register(r'categories', CategoryViewSet)
 
 urlpatterns = [
                   url(r'^$', IndexView.as_view(), name="index"),
@@ -25,4 +30,6 @@ urlpatterns = [
                   url(r'^admin/', admin.site.urls),
                   url(r'^cus_admin/', custom_site.urls),
                   url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+                  url(r'^api/', include(router.urls)),
+                  url(r'^api/docs/', include_docs_urls(title='typeidea apis')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
