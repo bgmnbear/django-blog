@@ -30,9 +30,24 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
+class PostDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = (
+            'url', 'id', 'title',
+            'category', 'tags',
+            'created_time',
+            'content',
+        )
+
+
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        self.serializer_class = PostDetailSerializer
+        return super(PostViewSet, self).retrieve(request, *args, **kwargs)
 
 
 class CategorySerializer(serializers.ModelSerializer):
