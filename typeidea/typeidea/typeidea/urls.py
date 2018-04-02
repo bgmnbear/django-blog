@@ -7,7 +7,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from rest_framework.documentation import include_docs_urls
 
-from blog.api import PostViewSet, CategoryViewSet
+from blog.api import PostViewSet, CategoryViewSet, TagViewSet, UserViewSet
 from comment.views import CommentView
 from config.views import LinkView
 from typeidea.custom_site import custom_site
@@ -16,8 +16,10 @@ from blog.views import IndexView, CategoryView, TagView, PostView, AuthorView
 from rest_framework import routers
 
 router = routers.DefaultRouter()
-router.register(r'posts', PostViewSet)
-router.register(r'categories', CategoryViewSet)
+router.register(r'post', PostViewSet)
+router.register(r'categorie', CategoryViewSet)
+router.register(r'tag', TagViewSet)
+router.register(r'user', UserViewSet)
 
 urlpatterns = [
                   url(r'^$', IndexView.as_view(), name="index"),
