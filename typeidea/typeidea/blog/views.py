@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import logging
 from django.core.cache import cache
 from django.views.generic import ListView, DetailView
+from silk.profiling.profiler import silk_profile
 
 from blog.models import Post, Tag, Category
 from comment.models import Comment
@@ -26,6 +27,7 @@ def time_it(func):
 
 
 class CommonMixin(object):
+    @silk_profile(name='get_category_context')
     def get_category_context(self):
         categories = Category.objects.filter(status=1)
 
