@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import logging
 from django.core.cache import cache
 from django.views.generic import ListView, DetailView
 
@@ -8,6 +9,8 @@ from blog.models import Post, Tag, Category
 from comment.models import Comment
 from comment.views import CommentShowMixin
 from config.models import SideBar
+
+logger = logging.getLogger(__name__)
 
 
 class CommonMixin(object):

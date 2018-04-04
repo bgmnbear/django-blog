@@ -53,6 +53,10 @@ class PostViewSet(viewsets.ModelViewSet):
             qs = qs.filter(category_id=category_id)
         return qs
 
+    def retrieve(self, request, *args, **kwargs):
+        self.serializer_class = PostDetailSerializer
+        return super(PostViewSet, self).retrieve(request, *args, **kwargs)
+
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
