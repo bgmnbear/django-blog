@@ -12,6 +12,18 @@ from config.models import SideBar
 
 logger = logging.getLogger(__name__)
 
+import time
+
+
+def time_it(func):
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        print(func.__name__, 'cost', time.time() - start)
+        return result
+
+    return wrapper
+
 
 class CommonMixin(object):
     def get_category_context(self):
