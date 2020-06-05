@@ -14,7 +14,7 @@ setup(
     package_dir={'': 'typeidea'},
     include_package_data=True,
     install_requires=[
-        'django==1.11.8',
+        'django==1.11.29',
     ],
     scripts=[
         'typeidea/manage.py',
